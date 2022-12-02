@@ -4,8 +4,8 @@ set -e
 
 day=$1
 
-(cd $day;
- printf "$day:\n"
+(cd day${day};
+ printf "day ${day}:\n"
  for test in 1 2; do
      if [ "$(${test}.escript)" = "$(cat expect/${test})" ]; then
          color="\e[1;32m"

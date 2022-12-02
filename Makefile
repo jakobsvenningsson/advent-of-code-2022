@@ -1,12 +1,14 @@
 DAYS = $(wildcard day*)
 
-all: common/ebin/common.beam
+all: build
+
+build: common/ebin/common.beam
 
 common/ebin/common.beam: common/common.erl
 	erlc -o $(@D) $^
 
 test:
-	@$(foreach DAY,$(DAYS),./test.bash $(DAY);)
+	@$(foreach DAY,$(DAYS:day%=%),./test.bash $(DAY);)
 
 clean:
 	rm -f common/ebin/*
