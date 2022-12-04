@@ -6,11 +6,11 @@
 -define(PAPER,   <<"Y">>).
 -define(SCISSOR, <<"Z">>).
 
-main(_Args) ->
+main([Input]) ->
     Lines = common:input(
-              "input.txt",
+              Input,
               fun(<<A:1/binary, " ", B:1/binary>>) ->
-                      {conv(A), B}
+                      {true, {conv(A), B}}
               end),
     Res =
         lists:foldl(
