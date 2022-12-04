@@ -1,14 +1,21 @@
 #!/usr/bin/env escript
 %% -*- erlang -*-
 %%! -pa ../common/ebin
-main(_Args) ->
-    {_, Res} =
+main([Input]) ->
+    Res =
         lists:foldl(
-          fun(<<"">>, {Acc, [H|T] = _Max}) when Acc > H ->
-                  {0, lists:sort([Acc|T])};
-             (<<"">>, {_Acc, Max}) ->
-                  {0, Max};
-             (Line, {Acc, Max}) ->
-                  {Acc + binary_to_integer(Line), Max}
-          end, {0, [0, 0, 0]}, common:input("input.txt")),
+          fun(Line, [H|T]) ->
+                  lists:sort([max(line_sum(Line), H)|T])
+          end, [0, 0, 0],
+          common:input(Input, <<"\n\n">>,
+                       fun(Line) ->
+                               binary_to_list(Line)
+                       end)),
     io:format("~p~n", [lists:sum(Res)]).
+
+line_sum([]) ->
+    0;
+line_sum(Line) ->
+    {Int, Rest} = string:to_integer(Line),
+    Int + line_sum(string:trim(Rest)).
+
