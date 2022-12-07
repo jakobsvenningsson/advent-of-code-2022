@@ -14,7 +14,7 @@ input(Path, Delim) ->
 
 input(Path, Delim, F) ->
     {ok, Data} = file:read_file(Path),
-    Lines = binary:split(Data, Delim, [global, trim]),
+    Lines = binary:split(Data, Delim, [global, trim_all]),
     lists:filtermap(fun(Line) ->
                             case F(Line) of
                                 {true, _} = Res ->
